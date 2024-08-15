@@ -27,7 +27,7 @@ export default function Index() {
   }
 
   return (
-    <View>
+    <View style = {{flex: 1}}>
          <Camera
           style={StyleSheet.absoluteFill}
           device={device}
