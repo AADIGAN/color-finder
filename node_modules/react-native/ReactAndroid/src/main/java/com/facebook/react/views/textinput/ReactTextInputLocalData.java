@@ -1,5 +1,5 @@
 /**
- * Copyright (c) Facebook, Inc. and its affiliates.
+ * Copyright (c) 2015-present, Facebook, Inc.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -28,8 +28,14 @@ public final class ReactTextInputLocalData {
     mTextSize = editText.getTextSize();
     mInputType = editText.getInputType();
     mPlaceholder = editText.getHint();
-    mMinLines = editText.getMinLines();
-    mMaxLines = editText.getMaxLines();
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+      mMinLines = editText.getMinLines();
+      mMaxLines = editText.getMaxLines();
+    } else {
+      mMinLines = 1;
+      mMaxLines = 1;
+    }
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
       mBreakStrategy = editText.getBreakStrategy();

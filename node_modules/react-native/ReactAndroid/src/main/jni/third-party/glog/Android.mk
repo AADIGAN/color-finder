@@ -13,7 +13,7 @@ LOCAL_SRC_FILES := \
 
 LOCAL_C_INCLUDES += $(LOCAL_PATH) $(LOCAL_PATH)/.. $(LOCAL_PATH)/glog-0.3.5/src/
 
-LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/exported
+LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/.. $(LOCAL_PATH)/glog-0.3.5/src/
 
 LOCAL_CFLAGS += \
   -Wwrite-strings \
@@ -23,8 +23,7 @@ LOCAL_CFLAGS += \
   -g \
   -O2 \
   -D_START_GOOGLE_NAMESPACE_="namespace google {" \
-  -D_END_GOOGLE_NAMESPACE_="}" \
-  -DHAVE_PREAD=1
+  -D_END_GOOGLE_NAMESPACE_="}"
 
 
 LOCAL_MODULE := glog
