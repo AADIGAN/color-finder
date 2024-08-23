@@ -1,3 +1,4 @@
+import { Stack } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
 import { Text, View, Button, ActivityIndicator, StyleSheet, Image, Platform } from "react-native";
 import { useCameraPermission, useCameraDevice, Camera } from 'react-native-vision-camera';
@@ -59,6 +60,7 @@ export default function Index() {
           <Image source={{ uri: photoUri }} style={styles.photo} />
         )}
       </View>
+      <Stack.Screen options={{headerShown: false}}/>
     </View>
   );
 }
