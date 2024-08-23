@@ -1,13 +1,11 @@
-import { Stack } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
-import { Text, View, Button, ActivityIndicator, StyleSheet, Image } from "react-native";
-import { useCameraPermission, useCameraDevice, Camera, takeSnapshot } from 'react-native-vision-camera';
-import * as FileSystem from 'expo-file-system';
+import { Text, View, Button, ActivityIndicator, StyleSheet, Image, Platform } from "react-native";
+import { useCameraPermission, useCameraDevice, Camera } from 'react-native-vision-camera';
 
 export default function Index() {
   const { hasPermission, requestPermission } = useCameraPermission();
   const device = useCameraDevice('back');
-  const cameraRef = useRef(null);
+  const cameraRef = useRef<Camera>(null);
   const [photoUri, setPhotoUri] = useState<string | null>(null);
   const [isCapturing, setIsCapturing] = useState(false);
 
@@ -31,15 +29,13 @@ export default function Index() {
     setIsCapturing(true);
 
     try {
-      const photo = await takeSnapshot(cameraRef.current, {
-        quality: 85,
-        skipMetadata: true,
+      const photo = await cameraRef.current.takePhoto({
+        qualityPrioritization: 'quality',
       });
 
-      const fileUri = `${FileSystem.cacheDirectory}photo.jpg`;
-      await FileSystem.writeAsStringAsync(fileUri, photo.base64, { encoding: FileSystem.EncodingType.Base64 });
-
-      setPhotoUri(fileUri);
+      // Directly use the path for displaying without moving it
+      const uri = Platform.OS === 'android' ? `file://${photo.path}` : photo.path;
+      setPhotoUri(uri);
     } catch (error) {
       console.error("Error taking photo:", error);
     } finally {
@@ -54,6 +50,7 @@ export default function Index() {
         device={device}
         isActive={true}
         ref={cameraRef}
+        photo={true}
       />
 
       <View style={styles.controls}>
@@ -62,8 +59,6 @@ export default function Index() {
           <Image source={{ uri: photoUri }} style={styles.photo} />
         )}
       </View>
-
-      <Stack.Screen options={{ headerShown: false }} />
     </View>
   );
 }
