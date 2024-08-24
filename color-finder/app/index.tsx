@@ -7,8 +7,9 @@ import { useCameraPermission, useCameraDevice, Camera } from 'react-native-visio
 export default function Index() {
   // useCameraPermission: Hook to handle camera permission
   // useCameraDevice: Hook to get information about the camera device
+  const [frontOrBack, setFrontOrBack] = useState<'front' | 'back'>('back');
   const { hasPermission, requestPermission } = useCameraPermission();
-  const device = useCameraDevice('back'); // Selects the back camera device
+  const device = useCameraDevice(frontOrBack); //initialize to the back camera first  
   const cameraRef = useRef<Camera>(null); // Ref to access the Camera component methods
   const [photoUri, setPhotoUri] = useState<string | null>(null); // State to store the photo URI
   const [isCapturing, setIsCapturing] = useState(false); // State to track if a photo is being captured
@@ -52,6 +53,10 @@ export default function Index() {
     }
   };
 
+  const toggleCamera = () => {
+    setFrontOrBack(prev => (prev === 'back' ? 'front' : 'back'));
+  };  
+
   return (
     <View style={{ flex: 1 }}>
       {/* Camera component to display the camera preview */}
@@ -63,15 +68,23 @@ export default function Index() {
         photo={true} // Enable photo capturing
       />
 
+      <View style ={styles.flipCamera}> 
+        <Button title = "flip camera" onPress={toggleCamera}></Button>
+
+      </View>
+      
+
       <View style={styles.controls}>
         {/* Button to trigger photo capture */}
-        <Button title="Take Photo" onPress={takePhoto} disabled={isCapturing} />
+        <Button title="Take photo" onPress={takePhoto} disabled={isCapturing} />
         {photoUri && (
           // Display the captured photo if it exists
           <Image source={{ uri: photoUri }} style={styles.photo} />
         )}
       </View>
-      {/* Hide the header for this screen */}
+      
+      
+       {/* Hide the header for this screen */}
       <Stack.Screen options={{headerShown: false}}/>
     </View>
   );
@@ -91,4 +104,9 @@ const styles = StyleSheet.create({
     height: 200,
     resizeMode: 'contain', // Maintain aspect ratio
   },
+  flipCamera: {
+    position: 'absolute', // Position at the bottom of the screen
+    bottom: 20,
+    width: '30%',
+  }
 });
