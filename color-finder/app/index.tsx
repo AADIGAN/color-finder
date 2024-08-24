@@ -7,7 +7,8 @@ import { useCameraPermission, useCameraDevice, Camera } from 'react-native-visio
 export default function Index() {
   // useCameraPermission: Hook to handle camera permission
   // useCameraDevice: Hook to get information about the camera device
-  const [frontOrBack, setFrontOrBack] = useState<'front' | 'back'>('back');
+  const [frontOrBack, setFrontOrBack] = useState<'front' | 'back'>('back'); //there is two name within the bracket [frontOrBack, setFrontOrBack] frontOrBack is the state variable where it holds the current value of the state. setFrontOrBack is the state updater function where it allows you to update the value of frontOrback
+  //"useState<>"
   const { hasPermission, requestPermission } = useCameraPermission();
   const device = useCameraDevice(frontOrBack); //initialize to the back camera first  
   const cameraRef = useRef<Camera>(null); // Ref to access the Camera component methods
@@ -55,8 +56,9 @@ export default function Index() {
 
   const toggleCamera = () => {
     setFrontOrBack(prev => (prev === 'back' ? 'front' : 'back'));
-  };  
-
+  };   //prev => () this is a arrow function that takes the previous state value ('prev') as its arguemnt. its a call back function that setFrontOrBack will call with the current value of frontOrBack 
+    //prev === 'back' ? 'front' : 'back'. it checks the current value of preve (which is the previous state). 
+    
   return (
     <View style={{ flex: 1 }}>
       {/* Camera component to display the camera preview */}
