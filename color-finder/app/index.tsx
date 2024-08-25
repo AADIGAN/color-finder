@@ -40,13 +40,11 @@ export default function Index() {
     setIsCapturing(true);
   
     try {
-      const photo = await cameraRef.current.takePhoto({
-        qualityPrioritization: 'quality',
-      });
+      const photo = await cameraRef.current.takePhoto();
   
       const uri = Platform.OS === 'android' ? `file://${photo.path}` : photo.path;
       setPhotoUri(uri);
-
+  
       console.log('Photo URI:', uri);
   
       // Use router.push with correct parameters
