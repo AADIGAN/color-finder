@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Text, View, Button, ActivityIndicator, StyleSheet, Image, Platform } from "react-native";
 // Import necessary hooks and components from react-native-vision-camera library
 import { useCameraPermission, useCameraDevice, Camera } from 'react-native-vision-camera';
-import { useNavigation } from '@react-navigation/native';
+
 
 export default function Index() {
   // useCameraPermission: Hook to handle camera permission
@@ -35,27 +35,29 @@ export default function Index() {
 
   // Function to take a photo
   const takePhoto = async () => {
-    // Prevent taking multiple photos at the same time
     if (!cameraRef.current || isCapturing) return;
-
-    setIsCapturing(true); // Indicate that photo capturing is in progress
-
+  
+    setIsCapturing(true);
+  
     try {
       const photo = await cameraRef.current.takePhoto({
-        qualityPrioritization: 'quality', // Prioritize quality over speed
+        qualityPrioritization: 'quality',
       });
-
-      // Construct the URI for displaying the photo
+  
       const uri = Platform.OS === 'android' ? `file://${photo.path}` : photo.path;
-      setPhotoUri(uri); // Store the photo URI in the state
-      
- 
-       router.push({pathname: '/picture', params:{photoUri}});
-    
+      setPhotoUri(uri);
+
+      console.log('Photo URI:', uri);
+  
+      // Use router.push with correct parameters
+      router.push({
+        pathname: '/picture',
+        params: { photoUri: uri }, // Ensure photoUri is a string
+      });
     } catch (error) {
-      console.error("Error taking photo:", error); // Log any errors that occur during photo capture
+      console.error("Error taking photo:", error);
     } finally {
-      setIsCapturing(false); // Reset capturing state after the photo is taken
+      setIsCapturing(false);
     }
   };
 
