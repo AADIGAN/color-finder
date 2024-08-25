@@ -1,8 +1,9 @@
-import { Stack } from 'expo-router';
+import { router, Stack, Link } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
 import { Text, View, Button, ActivityIndicator, StyleSheet, Image, Platform } from "react-native";
 // Import necessary hooks and components from react-native-vision-camera library
 import { useCameraPermission, useCameraDevice, Camera } from 'react-native-vision-camera';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Index() {
   // useCameraPermission: Hook to handle camera permission
@@ -47,6 +48,10 @@ export default function Index() {
       // Construct the URI for displaying the photo
       const uri = Platform.OS === 'android' ? `file://${photo.path}` : photo.path;
       setPhotoUri(uri); // Store the photo URI in the state
+      
+ 
+       router.push({pathname: '/picture', params:{photoUri}});
+    
     } catch (error) {
       console.error("Error taking photo:", error); // Log any errors that occur during photo capture
     } finally {
@@ -79,10 +84,9 @@ export default function Index() {
       <View style={styles.controls}>
         {/* Button to trigger photo capture */}
         <Button title="Take photo" onPress={takePhoto} disabled={isCapturing} />
-        {photoUri && (
-          // Display the captured photo if it exists
-          <Image source={{ uri: photoUri }} style={styles.photo} />
-        )}
+        
+
+        
       </View>
       
       
