@@ -1,22 +1,24 @@
 import { Link, router, Stack, useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet, Button, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, Image, StyleSheet, Button, PanResponder } from 'react-native';
 
 export default function Picture() {
   const { photoUri } = useLocalSearchParams();
   const [dot, setDot] = useState<{ x: number, y: number } | null>(null);
-
 
   // Ensure photoUri is a string
   const uri = Array.isArray(photoUri) ? photoUri[0] : photoUri;
 
   console.log('Received photoUri:', uri);
 
-  const handlePress = (e: { nativeEvent: { locationX: any; locationY: any; }; }) => {
-    const { locationX, locationY } = e.nativeEvent;
-    console.log(`Touched at X: ${locationX}, Y: ${locationY}`);
-    setDot({ x: locationX, y: locationY });
-  };
+  const panResponder = PanResponder.create({
+    onStartShouldSetPanResponder: () => true,
+    onPanResponderMove: (e, gestureState) => {
+      const { moveX, moveY } = gestureState;
+      console.log(`Moved to X: ${moveX}, Y: ${moveY}`);
+      setDot({ x: moveX, y: moveY });
+    },
+  });
 
   return (
     <View style={styles.container}>
@@ -28,13 +30,11 @@ export default function Picture() {
         />
       </View>
 
-      <View style={styles.imageContainer}>
-        <TouchableWithoutFeedback onPressIn={handlePress}>
-          <Image
-            source={{ uri: uri }}
-            style={styles.image}
-          />
-        </TouchableWithoutFeedback>
+      <View style={styles.imageContainer} {...panResponder.panHandlers}>
+        <Image
+          source={{ uri: uri }}
+          style={styles.image}
+        />
 
         {dot && (
           <View
