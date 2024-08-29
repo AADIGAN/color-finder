@@ -76,7 +76,7 @@ export default function Index() {
       />
 
       <View style ={styles.flipCamera}> 
-        <Button title = "flip camera" onPress={toggleCamera}></Button>
+        <Button title = "" onPress={toggleCamera}></Button>
 
       </View>
       
