@@ -76,7 +76,7 @@ export default function Index() {
       />
 
       <View style ={styles.flipCamera}> 
-        <Button title = "" onPress={toggleCamera}></Button>
+        <Button title = "flip camera" onPress={toggleCamera}></Button>
 
       </View>
       
@@ -84,8 +84,6 @@ export default function Index() {
       <View style={styles.controls}>
         {/* Button to trigger photo capture */}
         <Button title="Take photo" onPress={takePhoto} disabled={isCapturing} />
-        
-
         
       </View>
       
