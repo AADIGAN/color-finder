@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "expo": "^51.0.28",
+    "express": "^4.19.2",
+    "react-native-elements": "^3.4.3",
+    "react-native-image-crop-picker": "^0.41.2",
+    "react-native-image-manipulator": "^1.0.6",
+    "react-native-opencv3": "^1.0.4"
+  }
+}
